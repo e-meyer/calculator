@@ -59,4 +59,14 @@ function calculateResult(opClicked) {
         default:
             break;
     }
+
+    let isABigNumber = checksDisplay(display.textContent)
+
+    display.innerText = isABigNumber
+}
+
+function checksDisplay(string) {
+    if(string.length > 8)
+        return string.slice(0, 9)
+    return string
 }
