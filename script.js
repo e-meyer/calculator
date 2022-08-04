@@ -45,27 +45,31 @@ operators.forEach((operator) => {
 function calculateResult(opClicked) {
     switch(opClicked){
         case '+':
-            display.innerText = parseFloat(lastNumber) + parseFloat(display.textContent)
+            setDisplay(parseFloat(lastNumber) + parseFloat(display.textContent))
             break;
         case '-':
-            display.innerText = parseFloat(lastNumber) - parseFloat(display.textContent)
+            setDisplay(parseFloat(lastNumber) - parseFloat(display.textContent))
             break;
         case 'x':
-            display.innerText = parseFloat(lastNumber) * parseFloat(display.textContent)
+            setDisplay(parseFloat(lastNumber) * parseFloat(display.textContent))
             break;
         case '/':
-            display.innerText = parseFloat(lastNumber) / parseFloat(display.textContent)
+            setDisplay(parseFloat(lastNumber) / parseFloat(display.textContent))
             break;
         default:
             break;
     }
 
-    let isABigNumber = checksDisplay(display.textContent)
+    let isABigNumber = checkDisplay(display.textContent)
 
     display.innerText = isABigNumber
 }
 
-function checksDisplay(string) {
+function setDisplay(finalResult) {
+    display.innerText = finalResult
+}
+
+function checkDisplay(string) {
     if(string.length > 8)
         return string.slice(0, 9)
     return string
