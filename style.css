@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto Mono', sans-serif;
+}
+
+:root {
+    --greyish-blue: #8084d0;
+    --light-grey: #d9d9d9;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #252525;
+    
+}
+
+button {
+    padding: 30px 40px;
+    font-size: 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 36px;
+    background-color: var(--light-grey);
+    filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.5))
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 20px 4px rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0px;
+    background-color: var(--light-grey);
+    margin-bottom: 14px;
+    border-radius: 10px;
+}
+
+.visor {
+    background-color: #929292;
+    border-radius: 10px;
+    padding: 40px 110px;
+    font-size: 64px;
+}
+
+.balls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+   
+}
+
+.ball {
+    border-radius: 50px;
+    padding: 14px;
+}
+
+.ball-1 {
+    background-color: red;
+}
+
+.ball-2 {
+    background-color: green;
+}
+
+.ball-3 {
+    background-color: blue;
+}
+
+.digits {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.digits button {
+    transition: 0.3s
+}
+
+.digit:hover {
+    background-color: var(--greyish-blue);
+    transform: scale(1.1);
+    color: var(--light-grey)
+}
+
+.operation {
+    background-color: var(--greyish-blue);
+    color: var(--light-grey);
+    font-weight: bold;
+}
+
+.operation button {
+    transition: 0.3s
+}
+
+.operation:hover {
+    background-color: var(--light-grey);
+    transform: scale(1.1);
+    color: var(--greyish-blue)
+}
+
+.bottom-line {
+    width: 100%;
+    background-color: var(--light-grey);
+    padding: 30px 0px;
+    margin-top: 14px;
+    border-radius: 10px;
+}
