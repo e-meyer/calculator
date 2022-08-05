@@ -26,23 +26,26 @@ digits.forEach((digit) => {
 
 operators.forEach((operator) => {
     operator.addEventListener('click', () => {
-        if(operator.innerText != '='){
-            operation = true
-            setDisplay('0')
-            operationClicked = operator.innerText
-        }
-        else{
-            calculateResult(operationClicked)
-            let numberToDisplay = checkDisplayAfterCalculation(display.textContent)
-            setDisplay(numberToDisplay)
-            resetDisplayAndVariables()
-        }
-        
+        checkOperator(operator)
     })
 })
 
 function setDisplay(number) {
     display.innerText = number
+}
+
+function checkOperator(operator) {
+    if(operator.innerText != '='){
+        operation = true
+        setDisplay('0')
+        operationClicked = operator.innerText
+    }
+    else{
+        calculateResult(operationClicked)
+        let numberToDisplay = checkDisplayAfterCalculation(display.textContent)
+        setDisplay(numberToDisplay)
+        resetDisplayAndVariables()
+    }
 }
 
 function checkDisplayAfterCalculation(string) {
