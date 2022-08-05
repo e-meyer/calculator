@@ -116,20 +116,8 @@ function setKeyboardOperation(e) {
         console.log("aq")
         display.innerText += e.key
         lastNumber = display.innerText
-    }  else if (e.key != '=') {
-        console.log("aq2")
-        operation = true
-        setDisplay = 0
-        operationClicked = e.key
-    } else {
-        console.log("aq3")
-        calculateResult(operationClicked)
-        let numberToDisplay = checkDisplayAfterCalculation(display.textContent)
-        setDisplay(numberToDisplay)
-        resetDisplayAndVariables()
-    }
-
-    
+    } else
+        checkOperator(e)
 
     button.classList.add('pressed')
 }
