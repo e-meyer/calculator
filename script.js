@@ -21,7 +21,6 @@ digits.forEach((digit) => {
         if(!operation)
             lastNumber = display.innerText
 
-        console.log(lastNumber)
     })
 })
 
@@ -110,7 +109,7 @@ function setKeyboardOperation(e) {
 
     removeDummyTextFromDisplay()
 
-    if(!isNaN(e.key) && !operation){
+    if((!isNaN(e.key) || e.key === '.') && !operation){
         display.innerText += e.key
         lastNumber = display.innerText
     }
