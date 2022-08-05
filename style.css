@@ -97,10 +97,11 @@ button {
     transition: 0.3s
 }
 
+
+
 .digit:hover {
-    background-color: var(--greyish-blue);
     transform: scale(1.1);
-    color: var(--light-grey)
+    color: var(--greyish-blue)
 }
 
 .operator {
@@ -126,3 +127,9 @@ button {
     margin-top: 14px;
     border-radius: 10px;
 }
+
+.pressed {
+    transform: scale(1.1);
+    background-color: var(--light-grey);
+    color: var(--greyish-blue)
+  }

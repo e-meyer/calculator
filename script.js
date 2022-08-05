@@ -1,4 +1,5 @@
 let digits = Array.from(document.querySelectorAll('.digit'))
+let keys = Array.from(document.querySelectorAll('#key'))
 let operators = Array.from(document.querySelectorAll('.operator'))
 let display = document.querySelector('.text')
 let lastNumber = 0
@@ -34,13 +35,27 @@ operators.forEach((operator) => {
         }
         else{
             console.log(calculateResult(operationClicked))
-            operation = false
-            operationClicked = ''
-            lastNumber = display.innerText
+            resetDisplayAndVariables()
         }
         
     })
 })
+
+window.addEventListener('keydown', setKeyboardOperation)
+
+function setKeyboardOperation(e) {
+    const button = document.querySelector(`button[data-key="${e.key}"]`);
+    if(!button) return
+    
+    button.classList.add('pressed')
+}
+
+keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+
+function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('pressed');
+}
 
 function calculateResult(opClicked) {
     switch(opClicked){
@@ -73,4 +88,10 @@ function checkDisplay(string) {
     if(string.length > 8)
         return string.slice(0, 9)
     return string
+}
+
+function resetDisplayAndVariables() {
+    operation = false
+    operationClicked = ''
+    lastNumber = display.innerText
 }
