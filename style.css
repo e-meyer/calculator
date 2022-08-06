@@ -28,6 +28,10 @@ button {
     filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.5))
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 .container {
     max-width: 450px;
     display: flex;
@@ -61,12 +65,23 @@ button {
     font-size: 20px;
 }
 
-.balls {
+.header {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.header button {
+    padding: 0px 20px;
+    font-size: 24px;
+    transition: 0.3s
+}
+
+.ballsdiv {
     display: flex;
     gap: 10px;
-    margin-bottom: 10px;
-   
-}
+} 
 
 .ball {
     border-radius: 50px;
@@ -96,9 +111,8 @@ button {
     transition: 0.3s
 }
 
-
-
-.digit:hover {
+.digit:hover,
+.clear:hover {
     transform: scale(1.1);
     color: var(--greyish-blue)
 }

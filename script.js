@@ -1,12 +1,17 @@
-let digits = Array.from(document.querySelectorAll('.digit'))
-let operators = Array.from(document.querySelectorAll('.operator'))
 let keys = Array.from(document.querySelectorAll('#key'))
 let display = document.querySelector('.text')
 let expression = document.querySelector('.expression')
 let lastNumber = 0
 let operation = false
-let operationClicked = ''
+let operationSelected = ''
+const MAX_DISPLAY = 8;
 
+const clearButton = document.querySelector('.clear')
+clearButton.onclick = () => {
+    clearAll()
+}
+
+const digits = Array.from(document.querySelectorAll('.digit'))
 digits.forEach((digit) => {
     digit.addEventListener('click', () => {
         if(hasDisplayLengthLimitReached()) 
@@ -14,7 +19,7 @@ digits.forEach((digit) => {
         if(digit.textContent.includes('.') && hasAlreadyAFloatingPoint())
             return;
 
-        removeDummyTextFromDisplay()
+        removePriorTextFromDisplay()
 
         display.innerText += digit.innerText 
 
@@ -24,6 +29,7 @@ digits.forEach((digit) => {
     })
 })
 
+const operators = Array.from(document.querySelectorAll('.operator'))
 operators.forEach((operator) => {
     operator.addEventListener('click', () => {
         if(display.textContent == '')
@@ -32,71 +38,89 @@ operators.forEach((operator) => {
     })
 })
 
+function clearAll() {
+    resetDisplay()
+    resetExpressionDisplay()
+    resetDisplayAndVariables()
+}
+
+function resetDisplay() {
+    display.innerText = '​'
+}
+
 function setDisplay(number) {
     display.innerText = number
 }
 
 function setOperator(string) {
-    operationClicked = string
+    operationSelected = string
+}
+
+function resetExpressionDisplay() {
+    expression.innerText = '​'
 }
 
 function setExpressionDisplay(string) {
     expression.innerText = string
 }
 
+function isOperationSelectedEmpty() {
+    if(operationSelected == '')
+        return true
+    return false
+}
+
 function checkOperator(operator) {
-    if(operator.innerText != '=' && display.innerText != '​') {
-        operation = true
-        if(operationClicked == '') {
-            setOperator(operator.textContent)
-            setExpressionDisplay(lastNumber + ' ' + operationClicked)
-            setDisplay('​')
+    if(operator.innerText != '=' && display.innerText != '​') {                      // checks if the operator is not '=' and also if
+                                                                                    // there is already a number in the display (!= '')
+        operation = true                                                            // variable to stop storing numbers in lastNumber when pressing the digits
+
+        if(isOperationSelectedEmpty()) {                                                // if the operationSelected hasn't been set yet, it means its the first time running the calculator
+            setOperator(operator.textContent)                                       // so it won't use previous 
+            setExpressionDisplay(lastNumber + ' ' + operationSelected)
+            resetDisplay()
             return
         }
-        lastNumber = calculateResult(operationClicked)
+        lastNumber = calculateResult(operationSelected)
         setOperator(operator.textContent)
-        setExpressionDisplay(lastNumber.toString() + ' ' + operationClicked)
-        setDisplay('​')
+        setExpressionDisplay(lastNumber.toString() + ' ' + operationSelected)
+        resetDisplay()
     }
     else if(operator.innerText == '='){
         let lastNumberHolder = lastNumber
-        lastNumber = calculateResult(operationClicked)
+        lastNumber = calculateResult(operationSelected)
         let numberToDisplay = checkDisplayAfterCalculation(lastNumber)
-        setExpressionDisplay(`${lastNumberHolder} ${operationClicked} ${display.textContent} =`)
+        setExpressionDisplay(`${lastNumberHolder} ${operationSelected} ${display.textContent} =`)
         setDisplay(numberToDisplay)
         resetDisplayAndVariables(numberToDisplay)
     } else {
         setOperator(operator.textContent)
-        setExpressionDisplay(lastNumber + ' ' + operationClicked)
+        setExpressionDisplay(lastNumber + ' ' + operationSelected)
     }
 }
 
-function setLastNumber() {
-
-}
-
 function checkDisplayAfterCalculation(string) {
-    if(Math.round(string).toString().length > 8)
+    if(string.toString().length > MAX_DISPLAY)
         return 'ERROR'
-    if(string.toString().length > 8)
+    if(string.toString().length > MAX_DISPLAY)
         return string.toString().slice(0, 9)
     return string
 }
 
 function resetDisplayAndVariables(number) {
     operation = false
-    operationClicked = ''
+    operationSelected = ''
     lastNumber = number
 }
 
 function hasDisplayLengthLimitReached() {
-    if(display.textContent.length > 8)
+    if(display.textContent.length > MAX_DISPLAY)
         return true
     return false
 }
 
-function removeDummyTextFromDisplay() {
-    if(display.textContent == 0 || display.textContent == 'ERROR' || display.textContent == '​')
+function removePriorTextFromDisplay() {
+    if(display.textContent == 'ERROR' || display.textContent == '​')
         setDisplay('')
     return
 }
@@ -139,7 +163,7 @@ function calculateResult(opClicked) {
 //     if(e.key == '.' && hasAlreadyAFloatingPoint())
 //         return
 
-//     removeDummyTextFromDisplay()
+//     removePriorTextFromDisplay()
 
 //     display.innerText += e.key
 
