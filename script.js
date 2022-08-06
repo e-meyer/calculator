@@ -2,7 +2,7 @@ let keys = Array.from(document.querySelectorAll('#key'))
 let display = document.querySelector('.text')
 let expression = document.querySelector('.expression')
 let lastNumber = 0
-let operation = false
+let operationIsSelected = false
 let operationSelected = ''
 const MAX_DISPLAY = 8;
 
@@ -23,7 +23,7 @@ digits.forEach((digit) => {
 
         display.innerText += digit.innerText 
 
-        if(!operation)
+        if(!operationIsSelected)
             lastNumber = display.innerText
 
     })
@@ -38,10 +38,42 @@ operators.forEach((operator) => {
     })
 })
 
+function checkOperator(operator) {
+    if(isDisplayEmpty())
+        return
+
+    if(operator.innerText != '=' && display.innerText != '​') {
+        operationIsSelected = true
+
+        if(isOperationSelectedEmpty()) {
+            setOperator(operator.textContent)                                       
+            setExpressionDisplay(lastNumber + ' ' + operationSelected)
+            resetDisplay()
+            return
+        }
+
+        lastNumber = calculateResult(operationSelected)
+        setOperator(operator.textContent)
+        setExpressionDisplay(lastNumber.toString() + ' ' + operationSelected)
+        resetDisplay()
+    }
+    else if(operator.innerText == '='){
+        let lastNumberHolder = lastNumber
+        lastNumber = calculateResult(operationSelected)
+        let numberToDisplay = formatDisplayAfterCalculation(lastNumber)
+        setExpressionDisplay(`${lastNumberHolder} ${operationSelected} ${display.textContent} =`)
+        setDisplay(numberToDisplay)
+        resetVariables(numberToDisplay)
+    } else {
+        setOperator(operator.textContent)
+        setExpressionDisplay(lastNumber + ' ' + operationSelected)
+    }
+}
+
 function clearAll() {
     resetDisplay()
     resetExpressionDisplay()
-    resetDisplayAndVariables()
+    resetVariables()
 }
 
 function resetDisplay() {
@@ -70,36 +102,7 @@ function isOperationSelectedEmpty() {
     return false
 }
 
-function checkOperator(operator) {
-    if(operator.innerText != '=' && display.innerText != '​') {                      // checks if the operator is not '=' and also if
-                                                                                    // there is already a number in the display (!= '')
-        operation = true                                                            // variable to stop storing numbers in lastNumber when pressing the digits
-
-        if(isOperationSelectedEmpty()) {                                                // if the operationSelected hasn't been set yet, it means its the first time running the calculator
-            setOperator(operator.textContent)                                       // so it won't use previous 
-            setExpressionDisplay(lastNumber + ' ' + operationSelected)
-            resetDisplay()
-            return
-        }
-        lastNumber = calculateResult(operationSelected)
-        setOperator(operator.textContent)
-        setExpressionDisplay(lastNumber.toString() + ' ' + operationSelected)
-        resetDisplay()
-    }
-    else if(operator.innerText == '='){
-        let lastNumberHolder = lastNumber
-        lastNumber = calculateResult(operationSelected)
-        let numberToDisplay = checkDisplayAfterCalculation(lastNumber)
-        setExpressionDisplay(`${lastNumberHolder} ${operationSelected} ${display.textContent} =`)
-        setDisplay(numberToDisplay)
-        resetDisplayAndVariables(numberToDisplay)
-    } else {
-        setOperator(operator.textContent)
-        setExpressionDisplay(lastNumber + ' ' + operationSelected)
-    }
-}
-
-function checkDisplayAfterCalculation(string) {
+function formatDisplayAfterCalculation(string) {
     if(string.toString().length > MAX_DISPLAY)
         return 'ERROR'
     if(string.toString().length > MAX_DISPLAY)
@@ -107,8 +110,8 @@ function checkDisplayAfterCalculation(string) {
     return string
 }
 
-function resetDisplayAndVariables(number) {
-    operation = false
+function resetVariables(number) {
+    operationIsSelected = false
     operationSelected = ''
     lastNumber = number
 }
@@ -127,6 +130,12 @@ function removePriorTextFromDisplay() {
 
 function hasAlreadyAFloatingPoint() {
     if(display.textContent.includes('.'))
+        return true
+    return false
+}
+
+function isDisplayEmpty() {
+    if(display.textContent == '​')
         return true
     return false
 }
@@ -152,26 +161,26 @@ function calculateResult(opClicked) {
 
 // KEYBOARD LISTENER
 
-// window.addEventListener('keydown', setKeyboardDigit)
+window.addEventListener('keydown', setKeyboardDigit)
 
-// function setKeyboardDigit(e) {
-//     const button = document.querySelector(`button[data-digit="${e.key}"]`);
-//     if(!button) return
+function setKeyboardDigit(e) {
+    const button = document.querySelector(`button[data-digit="${e.key}"]`);
+    if(!button) return
 
-//     if(hasDisplayLengthLimitReached()) 
-//         return
-//     if(e.key == '.' && hasAlreadyAFloatingPoint())
-//         return
+    if(hasDisplayLengthLimitReached()) 
+        return
+    if(e.key == '.' && hasAlreadyAFloatingPoint())
+        return
 
-//     removePriorTextFromDisplay()
+    removePriorTextFromDisplay()
 
-//     display.innerText += e.key
+    display.innerText += e.key
 
-//     if(!operation)
-//         lastNumber = display.textContent
+    if(!operationIsSelected)
+        lastNumber = display.textContent
 
-//     button.classList.add('pressed')
-// }
+    // button.classList.add('pressed')
+}
 
 // keys.forEach(key => key.addEventListener('transitionend', removeTransition))
 
@@ -180,17 +189,15 @@ function calculateResult(opClicked) {
 //     e.target.classList.remove('pressed');
 // }
 
-// window.addEventListener('keydown', setKeyboardOperation)
+window.addEventListener('keydown', setKeyboardOperation)
 
-// function setKeyboardOperation(e) {
-//     if(display.textContent == '')
-//         return
+function setKeyboardOperation(e) {
+    if(isDisplayEmpty())
+        return
 
-//     let button = document.querySelector(`button[data-key="${e.key}"]`);
-//     if(!button) return
+    let button = document.querySelector(`button[data-key="${e.key}"]`);
+    if(!button) return
 
-//     console.log(e.target.innerText)
-//     console.log(display.textContent + 'fdp')
-//     checkOperator(e.target)
+    checkOperator(button)
     
-// }
+}
