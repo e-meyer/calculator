@@ -31,15 +31,23 @@ digits.forEach((digit) => {
 const operators = Array.from(document.querySelectorAll('.operator'))
 operators.forEach((operator) => {
     operator.addEventListener('click', () => {
-        if(display.textContent == '')
+        if(display.textContent == '' && expression.textContent == '')
             return
         if(display.textContent == 'ERROR')
             return
+        
         checkOperator(operator)
     })
 })
 
 function checkOperator(operator) {
+
+    if(display.innerText == '​' && expression.textContent != ''){
+        setOperator(operator.textContent)
+        setExpressionDisplay(lastNumber + ' ' + operationSelected)
+        return
+    }
+
     if(isDisplayClean())
         return
 
@@ -198,13 +206,10 @@ function setKeyboardDigit(e) {
 //     e.target.classList.remove('pressed');
 // }
 
-operators.forEach(operator => operator.addEventListener('keydown', setKeyboardOperation))
+window.addEventListener('keydown', setKeyboardOperation)
 
 function setKeyboardOperation(e) {
-    console.log('fdp')
-    if(isDisplayClean())
-        return
-
+    
     let button = document.querySelector(`button[data-key="${e.key}"]`);
     if(!button) return
 
