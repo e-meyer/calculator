@@ -35,7 +35,6 @@ operators.forEach((operator) => {
             return
         if(display.textContent == 'ERROR')
             return
-        console.log(display.textContent)
         checkOperator(operator)
     })
 })
@@ -62,7 +61,7 @@ function checkOperator(operator) {
     else if(operator.innerText == '='){
         if(!operationIsSelected)
             return
-            
+
         let lastNumberHolder = lastNumber
         lastNumber = calculateResult(operationSelected)
         let stringToDisplay = formatDisplayAfterCalculation(lastNumber)
@@ -187,21 +186,22 @@ function setKeyboardDigit(e) {
     if(!operationIsSelected)
         lastNumber = display.textContent
 
-    button.classList.add('pressed')
+    // button.classList.add('pressed')
 }
 
-const keys = Array.from(document.querySelectorAll('#key'))
+// const keys = Array.from(document.querySelectorAll('#key'))
 
-keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+// keys.forEach(key => key.addEventListener('transitionend', removeTransition))
 
-function removeTransition(e) {
-    if (e.propertyName !== 'transform') return;
-    e.target.classList.remove('pressed');
-}
+// function removeTransition(e) {
+//     if (e.propertyName !== 'transform') return;
+//     e.target.classList.remove('pressed');
+// }
 
-window.addEventListener('keydown', setKeyboardOperation)
+operators.forEach(operator => operator.addEventListener('keydown', setKeyboardOperation))
 
 function setKeyboardOperation(e) {
+    console.log('fdp')
     if(isDisplayClean())
         return
 
