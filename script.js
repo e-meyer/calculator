@@ -3,7 +3,6 @@ let operators = Array.from(document.querySelectorAll('.operator'))
 let keys = Array.from(document.querySelectorAll('#key'))
 let display = document.querySelector('.text')
 let expression = document.querySelector('.expression')
-let arrayOfExpression
 let lastNumber = 0
 let operation = false
 let operationClicked = ''
@@ -46,24 +45,29 @@ function setExpressionDisplay(string) {
 }
 
 function checkOperator(operator) {
-    let result
-    if(operator.innerText != '=') {
+    if(operator.innerText != '=' && display.innerText != '​') {
         operation = true
-        if(operationClicked != ''){
-            console.log(lastNumber, operationClicked, display.textContent)
-            result = calculateResult(operationClicked)
-            console.log(result)
-            setExpressionDisplay(result + ' ' + operationClicked)
+        if(operationClicked == '') {
+            setOperator(operator.textContent)
+            setExpressionDisplay(lastNumber + ' ' + operationClicked)
+            setDisplay('​')
+            return
         }
+        lastNumber = calculateResult(operationClicked)
         setOperator(operator.textContent)
         setExpressionDisplay(lastNumber.toString() + ' ' + operationClicked)
         setDisplay('​')
     }
-    else{
-        calculateResult(operationClicked)
-        let numberToDisplay = checkDisplayAfterCalculation(display.textContent)
+    else if(operator.innerText == '='){
+        let lastNumberHolder = lastNumber
+        lastNumber = calculateResult(operationClicked)
+        let numberToDisplay = checkDisplayAfterCalculation(lastNumber)
+        setExpressionDisplay(`${lastNumberHolder} ${operationClicked} ${display.textContent} =`)
         setDisplay(numberToDisplay)
         resetDisplayAndVariables(numberToDisplay)
+    } else {
+        setOperator(operator.textContent)
+        setExpressionDisplay(lastNumber + ' ' + operationClicked)
     }
 }
 
@@ -72,10 +76,10 @@ function setLastNumber() {
 }
 
 function checkDisplayAfterCalculation(string) {
-    if(Math.round(parseInt(string)).toString().length > 8)
+    if(Math.round(string).toString().length > 8)
         return 'ERROR'
-    if(string.length > 8)
-        return string.slice(0, 9)
+    if(string.toString().length > 8)
+        return string.toString().slice(0, 9)
     return string
 }
 
@@ -120,10 +124,6 @@ function calculateResult(opClicked) {
         default:
             break;
     }
-
-    
-    
-
 }
 
 // KEYBOARD LISTENER
@@ -159,9 +159,14 @@ function calculateResult(opClicked) {
 // window.addEventListener('keydown', setKeyboardOperation)
 
 // function setKeyboardOperation(e) {
-//     const button = document.querySelector(`button[data-key="${e.key}"]`);
+//     if(display.textContent == '')
+//         return
+
+//     let button = document.querySelector(`button[data-key="${e.key}"]`);
 //     if(!button) return
 
+//     console.log(e.target.innerText)
+//     console.log(display.textContent + 'fdp')
 //     checkOperator(e.target)
-//     console.log(lastNumber, display.textContent)
+    
 // }

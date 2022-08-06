@@ -43,7 +43,7 @@ button {
     text-align: right;
     justify-content: flex-end;
     flex-direction: column;
-    height: 7.2em;
+    height: 7.5em;
     background-color: var(--light-grey);
     margin-bottom: 14px;
     border-radius: 10px;
@@ -58,7 +58,7 @@ button {
 }
 
 .expression {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .balls {
