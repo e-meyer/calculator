@@ -1,4 +1,3 @@
-let keys = Array.from(document.querySelectorAll('#key'))
 let display = document.querySelector('.text')
 let expression = document.querySelector('.expression')
 let lastNumber = 0
@@ -179,15 +178,17 @@ function setKeyboardDigit(e) {
     if(!operationIsSelected)
         lastNumber = display.textContent
 
-    // button.classList.add('pressed')
+    button.classList.add('pressed')
 }
 
-// keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+const keys = Array.from(document.querySelectorAll('#key'))
 
-// function removeTransition(e) {
-//     if (e.propertyName !== 'transform') return;
-//     e.target.classList.remove('pressed');
-// }
+keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+
+function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('pressed');
+}
 
 window.addEventListener('keydown', setKeyboardOperation)
 
@@ -199,5 +200,4 @@ function setKeyboardOperation(e) {
     if(!button) return
 
     checkOperator(button)
-    
 }
