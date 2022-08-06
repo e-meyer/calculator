@@ -7,6 +7,7 @@ let secondNumber = 0
 let operation = false
 let operationClicked = ''
 
+
 digits.forEach((digit) => {
     digit.addEventListener('click', () => {
         if(hasDisplayLengthLimitReached()) 
@@ -26,7 +27,7 @@ digits.forEach((digit) => {
 
 operators.forEach((operator) => {
     operator.addEventListener('click', () => {
-        checkOperator(operator)
+            checkOperator(operator)
     })
 })
 
@@ -34,11 +35,15 @@ function setDisplay(number) {
     display.innerText = number
 }
 
+function setOperator(string) {
+    operationClicked = string
+}
+
 function checkOperator(operator) {
     if(operator.innerText != '='){
         operation = true
         setDisplay('0')
-        operationClicked = operator.innerText
+        setOperator(operator.textContent)
     }
     else{
         calculateResult(operationClicked)
@@ -49,6 +54,8 @@ function checkOperator(operator) {
 }
 
 function checkDisplayAfterCalculation(string) {
+    if(Math.round(parseInt(string)).toString().length > 8)
+        return 'ERROR'
     if(string.length > 8)
         return string.slice(0, 9)
     return string
@@ -67,7 +74,7 @@ function hasDisplayLengthLimitReached() {
 }
 
 function removeDummyTextFromDisplay() {
-    if(display.textContent == 0)
+    if(display.textContent == 0 || display.textContent == 'ERROR')
         setDisplay('')
     return
 }
@@ -99,10 +106,10 @@ function calculateResult(opClicked) {
 
 // KEYBOARD LISTENER
 
-window.addEventListener('keydown', setKeyboardOperation)
+window.addEventListener('keydown', setKeyboardDigit)
 
-function setKeyboardOperation(e) {
-    const button = document.querySelector(`button[data-key="${e.key}"]`);
+function setKeyboardDigit(e) {
+    const button = document.querySelector(`button[data-digit="${e.key}"]`);
     if(!button) return
 
     if(hasDisplayLengthLimitReached()) 
@@ -112,12 +119,10 @@ function setKeyboardOperation(e) {
 
     removeDummyTextFromDisplay()
 
-    if((!isNaN(e.key) || e.key === '.') && !operation){
-        console.log("aq")
-        display.innerText += e.key
-        lastNumber = display.innerText
-    } else
-        checkOperator(e)
+    display.innerText += e.key
+
+    if(!operation)
+        lastNumber = display.textContent
 
     button.classList.add('pressed')
 }
@@ -127,4 +132,14 @@ keys.forEach(key => key.addEventListener('transitionend', removeTransition))
 function removeTransition(e) {
     if (e.propertyName !== 'transform') return;
     e.target.classList.remove('pressed');
+}
+
+window.addEventListener('keydown', setKeyboardOperation)
+
+function setKeyboardOperation(e) {
+    const button = document.querySelector(`button[data-key="${e.key}"]`);
+    if(!button) return
+
+    checkOperator(e.target)
+    console.log(lastNumber, display.textContent)
 }

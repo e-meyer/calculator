@@ -40,26 +40,18 @@ button {
 
 .display {
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 100%;
-    padding: 20px 0px;
+    justify-content: flex-end;
+    height: 6em;
     background-color: var(--light-grey);
     margin-bottom: 14px;
     border-radius: 10px;
 }
 
 .text {
-    position: relative;
-    text-align: right;
-}
-
-.visor {
-    width: 90%;
-    background-color: #929292;
-    border-radius: 10px;
-    padding: 0px 5px;
+    padding: 0px 20px;
     font-size: 64px;
+    text-align: right;
 }
 
 .balls {
