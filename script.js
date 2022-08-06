@@ -33,12 +33,15 @@ operators.forEach((operator) => {
     operator.addEventListener('click', () => {
         if(display.textContent == '')
             return
+        if(display.textContent == 'ERROR')
+            return
+        console.log(display.textContent)
         checkOperator(operator)
     })
 })
 
 function checkOperator(operator) {
-    if(isDisplayEmpty())
+    if(isDisplayClean())
         return
 
     if(operator.innerText != '=' && display.innerText != '​') {
@@ -57,12 +60,22 @@ function checkOperator(operator) {
         resetDisplay()
     }
     else if(operator.innerText == '='){
+        if(!operationIsSelected)
+            return
+            
         let lastNumberHolder = lastNumber
         lastNumber = calculateResult(operationSelected)
-        let numberToDisplay = formatDisplayAfterCalculation(lastNumber)
+        let stringToDisplay = formatDisplayAfterCalculation(lastNumber)
+
+        if(stringToDisplay == 'ERROR'){
+            clearAll()
+            setDisplay(stringToDisplay)
+            return
+        }
+
         setExpressionDisplay(`${lastNumberHolder} ${operationSelected} ${display.textContent} =`)
-        setDisplay(numberToDisplay)
-        resetVariables(numberToDisplay)
+        setDisplay(stringToDisplay)
+        resetVariables(stringToDisplay)
     } else {
         setOperator(operator.textContent)
         setExpressionDisplay(lastNumber + ' ' + operationSelected)
@@ -102,7 +115,7 @@ function isOperationSelectedEmpty() {
 }
 
 function formatDisplayAfterCalculation(string) {
-    if(string.toString().length > MAX_DISPLAY)
+    if(Math.round(string).toString().length > MAX_DISPLAY)
         return 'ERROR'
     if(string.toString().length > MAX_DISPLAY)
         return string.toString().slice(0, 9)
@@ -133,8 +146,8 @@ function hasAlreadyAFloatingPoint() {
     return false
 }
 
-function isDisplayEmpty() {
-    if(display.textContent == '​')
+function isDisplayClean() {
+    if(display.textContent == '​' || display.textContent == 'ERROR')
         return true
     return false
 }
@@ -143,16 +156,12 @@ function calculateResult(opClicked) {
     switch(opClicked){
         case '+':
             return parseFloat(lastNumber) + parseFloat(display.textContent)
-            break;
         case '-':
             return parseFloat(lastNumber) - parseFloat(display.textContent)
-            break;
         case 'x':
             return parseFloat(lastNumber) * parseFloat(display.textContent)
-            break;
         case '/':
             return parseFloat(lastNumber) / parseFloat(display.textContent)
-            break;
         default:
             break;
     }
@@ -193,7 +202,7 @@ function removeTransition(e) {
 window.addEventListener('keydown', setKeyboardOperation)
 
 function setKeyboardOperation(e) {
-    if(isDisplayEmpty())
+    if(isDisplayClean())
         return
 
     let button = document.querySelector(`button[data-key="${e.key}"]`);
