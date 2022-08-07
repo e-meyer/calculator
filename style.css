@@ -1,12 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto Mono', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 :root {
     --greyish-blue: #8084d0;
     --light-grey: #d9d9d9;
+    --background-color: #252525;
+    --light-background: #444444;
+    --darker-background: #303030;
 }
 
 body {
@@ -14,18 +19,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #252525;
+    background-color: var(--background-color);
     
 }
 
 button {
-    padding: 30px 40px;
-    font-size: 30px;
+    padding: 30px 38px;
+    font-size: 26px;
+    font-weight: bold;
     border: none;
-    border-radius: 10px;
-    font-size: 36px;
-    background-color: var(--light-grey);
-    filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.5))
+    border-radius: 20px;
+    background-color: var(--background-color);
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+    color: var(--light-grey)
 }
 
 button:hover {
@@ -37,32 +43,9 @@ button:hover {
     display: flex;
     flex-direction: column;
     background-color: #252525;
-    box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.2);
     padding: 15px;
-    border-radius: 10px;
-}
-
-.display {
-    display: flex;
-    text-align: right;
-    justify-content: flex-end;
-    flex-direction: column;
-    height: 7.5em;
-    background-color: var(--light-grey);
-    margin-bottom: 14px;
-    border-radius: 10px;
-}
-
-.text, .expression {
-    padding: 0px 20px;
-}
-
-.text {
-    font-size: 64px;
-}
-
-.expression {
-    font-size: 20px;
+    border-radius: 20px;
 }
 
 .header {
@@ -78,26 +61,53 @@ button:hover {
     transition: 0.3s
 }
 
-.ballsdiv {
+.header i {
+    color: #9c9c9c;
+    font-size: 28px;
+}
+
+.links {
     display: flex;
     gap: 10px;
-} 
-
-.ball {
-    border-radius: 50px;
-    padding: 14px;
+    align-items: center;
 }
 
-.ball-1 {
-    background-color: red;
+.ball-1{
+    background-color: var(--darker-background);
+    padding: 13px;
+    border-radius: 50%;
 }
 
-.ball-2 {
-    background-color: green;
+.ball-2{
+    background-color: #5f5f5f;
+    padding: 13px;
+    border-radius: 50%;
 }
 
-.ball-3 {
-    background-color: blue;
+.display {
+    display: flex;
+    text-align: right;
+    justify-content: flex-end;
+    flex-direction: column;
+    height: 7.5em;
+    background-color: var(--background-color);
+    margin-bottom: 14px;
+    border-radius: 20px;
+    color: var(--light-grey);
+    box-shadow: inset 0px 0px 20px rgba(0,0,0,0.2)
+}
+
+.text, .expression {
+    padding: 0px 20px;
+}
+
+.text {
+    font-size: 64px;
+    font-weight: bold;
+}
+
+.expression {
+    font-size: 20px;
 }
 
 .digits {
@@ -114,11 +124,18 @@ button:hover {
 .digit:hover,
 .clear:hover {
     transform: scale(1.1);
-    color: var(--greyish-blue)
+    color: white;
+}
+
+.clearbtn .clear {
+    border-radius: 15px;
+    padding: 4px 24px;
+    font-size: 22px;
+    background-color: var(--darker-background);
 }
 
 .operator {
-    background-color: var(--greyish-blue);
+    background-color: var(--light-background);
     color: var(--light-grey);
     font-weight: bold;
 }
@@ -128,17 +145,17 @@ button:hover {
 }
 
 .operator:hover {
-    background-color: var(--light-grey);
     transform: scale(1.1);
-    color: var(--greyish-blue)
+    color: white;
 }
 
 .bottom-line {
     width: 100%;
-    background-color: var(--light-grey);
+    background-color: var(--darker-background);
     padding: 30px 0px;
     margin-top: 14px;
-    border-radius: 10px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
 }
 
 .pressed {

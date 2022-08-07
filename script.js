@@ -42,7 +42,7 @@ operators.forEach((operator) => {
 
 function checkOperator(operator) {
 
-    if(display.innerText == '​' && expression.textContent != ''){
+    if(display.innerText == '​' && expression.textContent != '' && operator.textContent != '='){
         setOperator(operator.textContent)
         setExpressionDisplay(lastNumber + ' ' + operationSelected)
         return
@@ -53,7 +53,7 @@ function checkOperator(operator) {
 
     if(operator.innerText != '=' && display.innerText != '​') {
         operationIsSelected = true
-
+        
         if(isOperationSelectedEmpty()) {
             setOperator(operator.textContent)                                       
             setExpressionDisplay(lastNumber + ' ' + operationSelected)
@@ -67,9 +67,10 @@ function checkOperator(operator) {
         resetDisplay()
     }
     else if(operator.innerText == '='){
+        
         if(!operationIsSelected)
             return
-
+        
         let lastNumberHolder = lastNumber
         lastNumber = calculateResult(operationSelected)
         let stringToDisplay = formatDisplayAfterCalculation(lastNumber)
@@ -82,7 +83,7 @@ function checkOperator(operator) {
 
         setExpressionDisplay(`${lastNumberHolder} ${operationSelected} ${display.textContent} =`)
         setDisplay(stringToDisplay)
-        resetVariables(stringToDisplay)
+        resetVariables()
     } else {
         setOperator(operator.textContent)
         setExpressionDisplay(lastNumber + ' ' + operationSelected)
@@ -129,10 +130,10 @@ function formatDisplayAfterCalculation(string) {
     return string
 }
 
-function resetVariables(number) {
+function resetVariables() {
     operationIsSelected = false
     operationSelected = ''
-    lastNumber = number
+    lastNumber = 0
 }
 
 function hasDisplayLengthLimitReached() {
@@ -176,26 +177,26 @@ function calculateResult(opClicked) {
 
 // KEYBOARD LISTENER
 
-window.addEventListener('keydown', setKeyboardDigit)
+// window.addEventListener('keydown', setKeyboardDigit)
 
-function setKeyboardDigit(e) {
-    const button = document.querySelector(`button[data-digit="${e.key}"]`);
-    if(!button) return
+// function setKeyboardDigit(e) {
+//     const button = document.querySelector(`button[data-digit="${e.key}"]`);
+//     if(!button) return
 
-    if(hasDisplayLengthLimitReached()) 
-        return
-    if(e.key == '.' && hasAlreadyAFloatingPoint())
-        return
+//     if(hasDisplayLengthLimitReached()) 
+//         return
+//     if(e.key == '.' && hasAlreadyAFloatingPoint())
+//         return
 
-    removePriorTextFromDisplay()
+//     removePriorTextFromDisplay()
 
-    display.innerText += e.key
+//     display.innerText += e.key
 
-    if(!operationIsSelected)
-        lastNumber = display.textContent
+//     if(!operationIsSelected)
+//         lastNumber = display.textContent
 
-    // button.classList.add('pressed')
-}
+//     button.classList.add('pressed')
+// }
 
 // const keys = Array.from(document.querySelectorAll('#key'))
 
@@ -206,12 +207,12 @@ function setKeyboardDigit(e) {
 //     e.target.classList.remove('pressed');
 // }
 
-window.addEventListener('keydown', setKeyboardOperation)
+// window.addEventListener('keydown', setKeyboardOperation)
 
-function setKeyboardOperation(e) {
-    
-    let button = document.querySelector(`button[data-key="${e.key}"]`);
-    if(!button) return
+// function setKeyboardOperation(e) {
 
-    checkOperator(button)
-}
+//     let button = document.querySelector(`button[data-key="${e.key}"]`);
+//     if(!button) return
+
+//     checkOperator(button)
+// }
