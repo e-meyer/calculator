@@ -53,9 +53,10 @@ digits.forEach(digit => digit.addEventListener('click', (e) => {
 const operators = Array.from(document.querySelectorAll('.operator'))
 
 operators.forEach(operator => operator.addEventListener('click', (e) => {
-    if(isFirstTime && (operator.innerText == '=' || isDisplayClear()))
+    if(operator.innerText == '=' && isDisplayEmpty()){
         return
-
+    }
+        
     if(isFirstTime){
         isFirstTime = false
         setOperator(operator.textContent)
@@ -63,16 +64,21 @@ operators.forEach(operator => operator.addEventListener('click', (e) => {
         setExpressionDisplay(`${defaultDisplay.textContent} ${operator.textContent}`)
         clearDisplay()
         return
-    }
-    if(!isFirstTime && isDisplayClear()){
+    } else if(!isFirstTime && isDisplayEmpty()){
         setOperator(operator.textContent)
         setExpressionDisplay(`${lastNumber} ${operator.textContent}`)
+        return
+    } else if(operator.textContent == '=' && expressionDisplay != ''){
+        setExpressionDisplay(`${lastNumber} ${selectedOperator} ${defaultDisplay.textContent} =`)
+        lastNumber = performCalculation(selectedOperator)
+        setDisplay(lastNumber)
         return
     }
 
     lastNumber = performCalculation(selectedOperator)
     setOperator(operator.textContent)
     setExpressionDisplay(`${lastNumber} ${operator.textContent}`)
+    clearDisplay()
     setDisplay(lastNumber)
 }))
 
@@ -82,7 +88,7 @@ function checkDisplayLength() {
     return false
 }
 
-function isDisplayClear() {
+function isDisplayEmpty() {
     if((defaultDisplay.textContent == '​' || defaultDisplay.textContent == '' || defaultDisplay.textContent == 'ERROR'))
         return true
     return false
@@ -103,11 +109,11 @@ function setLastNumber(number) {
 function setDisplay(string) {
     if(defaultDisplay.textContent === '0' || defaultDisplay === 'ERROR'){
         defaultDisplay.innerText = ''
-        setDisplay.innerText += string
+        defaultDisplay.innerText += string
         return
     }
     
-    setDisplay.innerText += string
+    defaultDisplay.innerText += string
 }
 
 function clearAll() {
