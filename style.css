@@ -161,6 +161,5 @@ button:hover {
 
 .pressed {
     transform: scale(1.1);
-    background-color: var(--light-grey);
-    color: var(--greyish-blue)
+    color: white;
   }
