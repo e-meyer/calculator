@@ -5,6 +5,16 @@ let operationIsSelected = false
 let operationSelected = ''
 const MAX_DISPLAY = 8;
 
+const operatorObj = {
+    '+': '+',
+    '-': '-',
+    'x': 'x',
+    '*': 'x',
+    '/': '/',
+    'Enter': '=',
+    '=': '=',
+}
+
 const clearButton = document.querySelector('.clear')
 clearButton.onclick = () => {
     clearAll()
@@ -80,10 +90,11 @@ function checkOperator(operator) {
             setDisplay(stringToDisplay)
             return
         }
-
         setExpressionDisplay(`${lastNumberHolder} ${operationSelected} ${display.textContent} =`)
         setDisplay(stringToDisplay)
-        resetVariables()
+        setOperator('')
+        operationIsSelected = false
+
     } else {
         setOperator(operator.textContent)
         setExpressionDisplay(lastNumber + ' ' + operationSelected)
@@ -207,12 +218,15 @@ function calculateResult(opClicked) {
 //     e.target.classList.remove('pressed');
 // }
 
-// window.addEventListener('keydown', setKeyboardOperation)
+window.addEventListener('keydown', setKeyboardOperation)
 
-// function setKeyboardOperation(e) {
+function setKeyboardOperation(e) {
+    let test = e.key
+    if(e.key in operatorObj){
+        checkOperator(test)
+    }
+    // let button = document.querySelector(`button[data-key="${e.key}"]`);
+    // if(!button) return
 
-//     let button = document.querySelector(`button[data-key="${e.key}"]`);
-//     if(!button) return
-
-//     checkOperator(button)
-// }
+    // checkOperator(button)
+}
