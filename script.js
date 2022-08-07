@@ -5,6 +5,11 @@ let isFirstTime = true
 let selectedOperator = ''
 const MAX_DISPLAY = 8;
 
+const add = (a, b) => a + b
+const sub = (a, b) => a - b
+const mult = (a, b) => a * b
+const div = (a, b) => a / b
+
 const clearButton = document.querySelector('.clear')
 clearButton.onclick = () => {
     clearAll()
@@ -64,7 +69,7 @@ function checkOperator(operator) {
             return
         }
 
-        lastNumber = calculateResult(selectedOperator)
+        lastNumber = performCalculation(selectedOperator)
         setOperator(operator.textContent)
         setExpressionDisplay(lastNumber.toString() + ' ' + selectedOperator)
         resetDisplay()
@@ -75,7 +80,7 @@ function checkOperator(operator) {
             return
         
         let lastNumberHolder = lastNumber
-        lastNumber = calculateResult(selectedOperator)
+        lastNumber = performCalculation(selectedOperator)
         let stringToDisplay = formatDisplayAfterCalculation(lastNumber)
 
         if(stringToDisplay == 'ERROR'){
@@ -146,12 +151,6 @@ function hasDisplayLengthLimitReached() {
     return false
 }
 
-function removePriorTextFromDisplay() {
-    if(display.textContent == 'ERROR' || display.textContent == '​')
-        setDisplay('')
-    return
-}
-
 function hasAlreadyAFloatingPoint() {
     if(display.textContent.includes('.'))
         return true
@@ -164,16 +163,21 @@ function isDisplayClean() {
     return true
 }
 
-function calculateResult(opClicked) {
+function removePriorTextFromDisplay() {
+    setDisplay('')
+    return
+}
+
+function performCalculation(opClicked) {
     switch(opClicked){
         case '+':
-            return parseFloat(lastNumber) + parseFloat(display.textContent)
+            return add(parseFloat(lastNumber), parseFloat(display.textContent))
         case '-':
-            return parseFloat(lastNumber) - parseFloat(display.textContent)
+            return sub(parseFloat(lastNumber), parseFloat(display.textContent))
         case 'x':
-            return parseFloat(lastNumber) * parseFloat(display.textContent)
+            return mult(parseFloat(lastNumber), parseFloat(display.textContent))
         case '/':
-            return parseFloat(lastNumber) / parseFloat(display.textContent)
+            return div(parseFloat(lastNumber), parseFloat(display.textContent))
         default:
             break;
     }
