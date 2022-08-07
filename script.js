@@ -37,7 +37,6 @@ digits.forEach((digit) => {
 
 const operators = Array.from(document.querySelectorAll('.operator'))
 operators.forEach((operator) => {
-    this.blur();
     operator.addEventListener('click', () => {
         if(display.textContent == '' && expression.textContent == '')
             return
@@ -45,6 +44,7 @@ operators.forEach((operator) => {
             return
         
         checkOperator(operator)
+
     })
 })
 
