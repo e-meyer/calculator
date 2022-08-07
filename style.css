@@ -3,6 +3,7 @@
 * {
     margin: 0;
     padding: 0;
+    outline: 0;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -62,7 +63,8 @@ button:hover {
 }
 
 .header i {
-    color: #9c9c9c;
+    /* color: #9c9c9c; */
+    color: #ff9d005b;
     font-size: 28px;
 }
 
@@ -107,6 +109,7 @@ button:hover {
 }
 
 .expression {
+    top: 0;
     font-size: 20px;
 }
 
