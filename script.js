@@ -195,21 +195,12 @@ function performCalculation(opClicked) {
 window.addEventListener('keydown', setKeyboardDigit)
 
 function setKeyboardDigit(e) {
-    const button = document.querySelector(`button[data-digit="${e.key}"]`);
+    const button = document.querySelector(`button[data-key="${e.key}"]`);
     if(!button) return
 
     button.click()
 
     button.classList.add('pressed')
-}
-
-window.addEventListener('keydown', setKeyboardOperation)
-
-function setKeyboardOperation(e) {
-    let button = document.querySelector(`button[data-key="${e.key}"]`);
-    if(!button) return
-
-    checkOperator(button)
 }
 
 // REMOVE ANIMATIONS AFTER KEYBOARD INPUT
