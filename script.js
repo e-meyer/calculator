@@ -53,11 +53,18 @@ function checkOperator(operator) {
     if(display.innerText == '​' && expression.textContent != '' && operator.textContent != '='){
         setOperator(operator.textContent)
         setExpressionDisplay(lastNumber + ' ' + selectedOperator)
+        
         return
     }
-
+    
     if(!isDisplayClean())
         return
+
+    if(expression.textContent != '' && selectedOperator == '/' && display.textContent == 0){
+        display.innerText = 'ERROR'
+        setExpressionDisplay('')
+        return
+    }
 
     if(operator.innerText != '=' && display.innerText != '​') {
         isFirstTime = false
@@ -158,7 +165,7 @@ function hasAlreadyAFloatingPoint() {
 }
 
 function isDisplayClean() {
-    if(display.textContent == '​' || display.textContent == 'ERROR')
+    if(display.textContent == '​' || display.textContent == 'ERROR' || display.textContent == '')
         return false
     return true
 }
