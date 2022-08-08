@@ -191,38 +191,27 @@ function setKeyboardDigit(e) {
     const button = document.querySelector(`button[data-digit="${e.key}"]`);
     if(!button) return
 
-    if(hasDisplayLengthLimitReached()) 
-        return
-
-    if(e.key == '.' && hasAlreadyAFloatingPoint())
-        return
-
-    if(!isDisplayClean())
-        removePriorTextFromDisplay()
-
-    display.innerText += e.key
-
-    if(isFirstTime)
-        lastNumber = display.textContent
+    button.click()
 
     button.classList.add('pressed')
-}
-
-const keys = Array.from(document.querySelectorAll('#key'))
-
-keys.forEach(key => key.addEventListener('transitionend', removeTransition))
-
-function removeTransition(e) {
-    if (e.propertyName !== 'transform') return;
-    e.target.classList.remove('pressed');
 }
 
 window.addEventListener('keydown', setKeyboardOperation)
 
 function setKeyboardOperation(e) {
-    
     let button = document.querySelector(`button[data-key="${e.key}"]`);
     if(!button) return
 
     checkOperator(button)
 }
+
+// REMOVE ANIMATIONS AFTER KEYBOARD INPUT
+
+const keys = Array.from(document.querySelectorAll('#key'))
+
+keys.forEach(key => key.addEventListener('transitionend', (e) =>{
+    if (e.propertyName !== 'transform') return;
+
+    e.target.classList.remove('pressed');
+}))
+
